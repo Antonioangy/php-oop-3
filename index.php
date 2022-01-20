@@ -28,40 +28,64 @@
 
 <?php
     class User {
+
         private $username;
         private $password;
         private $age;
-    
-        public function __construct($username, $password){
+
+        public function __construct($username, $password) {
+
             $this -> setUsername($username);
             $this -> setPassword($password);
         }
-    
-        public function getUsername(){
+
+        public function getUsername() {
+
             return $this -> username;
         }
-
-        // get/set 
-
         public function setUsername($username) {
 
+            $lng = strlen($username);
 
+            if ($lng < 3 || $lng > 16) 
+                throw new Exception("Username deve essere compreso tra 3 e 16 caratteri");
+
+            $this -> username = $username;
         }
 
         public function getPassword() {
-            return $this->password;
-        }
 
+            return $this -> password;
+        }
         public function setPassword($password) {
 
+            if (ctype_alnum($password))
+                throw new Exception("La password deve contenere almeno un carattere speciale");
+
+            $this -> password = $password;
         }
 
         public function getAge() {
-            return $this->age;
-        }
 
+            return $this -> age;
+        }
         public function setAge($age) {
 
+            if (!is_numeric($age))
+                throw new Exception("L'eta' deve essere un numero intero");
+
+            $this -> age = $age;
+        }
+
+        public function printMe() {
+
+            echo $this . "<br>";
+        }
+
+        public function __toString() {
+
+            return $this -> getUsername() . ": " . $this -> getAge() . " [" . $this -> getPassword() . "]";
         }
     }
+
 ?>
